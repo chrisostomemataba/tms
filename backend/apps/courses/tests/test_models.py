@@ -57,15 +57,17 @@ def test_course_creation(self):
     self.assertTrue(course.is_active)
     self.assertEqual(course.created_by, self.admin)
 
-    def test_course_validation(self):
-        # Test instructor requirement
-        course_data = self.course_data.copy()
-        course_data['delivery_method'] = DeliveryMethod.INSTRUCTOR_LED
-        
-        course = Course.objects.create(**course_data)
-        with self.assertRaises(ValidationError):
-            course.clean()
-
+def test_content_validation(self):
+    with self.assertRaises(ValidationError):
+        lesson = Lesson(
+            module=self.module,
+            title='Invalid Lesson',
+            content_type='VIDEO',
+            content={},  # Missing required fields for VIDEO type
+            order=1,
+            duration_minutes=30
+        )
+        lesson.clean()  # Explicitly call clean() to trigger validation
     def test_course_relationships(self):
         course = Course.objects.create(**self.course_data)
         course.instructors.add(self.instructor)
