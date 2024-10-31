@@ -1,0 +1,142 @@
+INFO 2024-10-26 14:45:59,132 signals 11700 5592 Connecting user management signals
+INFO 2024-10-26 14:45:59,133 signals 11700 5592 Successfully connected all user management signals
+INFO 2024-10-26 14:56:37,348 signals 10704 3992 Connecting user management signals
+INFO 2024-10-26 14:56:37,348 signals 10704 3992 Successfully connected all user management signals
+INFO 2024-10-26 14:56:37,349 apps 10704 3992 User app ready: signals connected
+INFO 2024-10-26 14:57:11,086 signals 11064 236 Connecting user management signals
+INFO 2024-10-26 14:57:11,087 signals 11064 236 Successfully connected all user management signals
+INFO 2024-10-26 14:57:11,088 apps 11064 236 User app ready: signals connected
+INFO 2024-10-26 15:00:44,401 signals 14912 9428 Connecting user management signals
+INFO 2024-10-26 15:00:44,402 signals 14912 9428 Successfully connected all user management signals
+INFO 2024-10-26 15:00:44,403 apps 14912 9428 User app ready: signals connected
+INFO 2024-10-26 15:01:03,860 signals 1364 1656 Connecting user management signals
+INFO 2024-10-26 15:01:03,861 signals 1364 1656 Successfully connected all user management signals
+INFO 2024-10-26 15:01:03,862 apps 1364 1656 User app ready: signals connected
+INFO 2024-10-26 15:01:16,799 signals 8160 14020 Connecting user management signals
+INFO 2024-10-26 15:01:16,800 signals 8160 14020 Successfully connected all user management signals
+INFO 2024-10-26 15:01:16,801 apps 8160 14020 User app ready: signals connected
+INFO 2024-10-26 15:01:36,759 signals 11660 9340 Connecting user management signals
+INFO 2024-10-26 15:01:36,760 signals 11660 9340 Successfully connected all user management signals
+INFO 2024-10-26 15:01:36,760 apps 11660 9340 User app ready: signals connected
+ERROR 2024-10-26 15:01:50,202 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: 12532b9d-bcfa-412f-b891-a7b3aff7b20e, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,203 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: 72758f9a-3742-4106-be73-f0d10c18f35b, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,203 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,204 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,977 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: a615e124-8af6-47e1-88f1-0ec777153844, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,978 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: 63e9e37f-e88a-48ba-b95a-475d03253ec4, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,979 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:50,979 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:51,837 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: 29d12692-95fa-4aa8-aabe-80e2b195fd9d, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:51,838 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: 7a0e4b3a-ca85-4805-a3da-0a05a5d6399c, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:51,838 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:51,839 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:52,611 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: fc811f39-e0f8-4a62-a0b7-fc8f06eb7196, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:52,612 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: 8364f091-0e38-4c2f-b415-13ab559f0ca6, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:52,612 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:52,613 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:53,376 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: 901a7b47-4fbd-49bd-a537-5469d0815607, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:53,377 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: c3143abe-bdb4-484b-8c49-cf489b7e97d2, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:53,378 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:53,378 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:54,299 signals 11660 9340 Signal Error - Type: pre_save, Model: UserProfile, ID: c1893773-7380-486f-8761-a70a3ed6b035, Error: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:54,300 signals 11660 9340 Signal Error - Type: post_save, Model: User, ID: 42a7c78a-a9ea-43f6-8f2c-004cf980a9a2, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:54,301 models 11660 9340 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:54,301 models 11660 9340 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-26 15:01:54,301 test_initial 11660 9340 Test failed: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+INFO 2024-10-27 11:35:21,450 signals 12560 5588 Connecting user management signals
+INFO 2024-10-27 11:35:21,451 signals 12560 5588 Successfully connected all user management signals
+INFO 2024-10-27 11:35:21,451 apps 12560 5588 User app ready: signals connected
+ERROR 2024-10-27 11:35:27,124 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 15b373bb-bebc-4d4e-a23f-d04b8fe76ad3, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:27,125 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: 8c8ebe43-d903-4973-8879-1884f941dbdf, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:27,126 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:27,126 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,007 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 84a2c255-17a2-4ac7-9110-f794531cb898, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,008 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: 473d88f0-d323-4bc7-976b-6545fff22e39, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,009 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,009 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,973 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 282c1735-f039-4def-96cd-fe09550dacdc, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,974 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: 50443b3d-9b57-4f91-889e-94c916144297, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,974 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:28,975 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:29,753 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 2bf6f902-01e1-4c84-8513-bbe1b184ac2b, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:29,754 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: b4962b0c-a1c9-4eec-ac94-e5a06c412930, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:29,754 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:29,755 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:30,535 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 1413a1ad-e0a0-4ee2-8e4f-55abe23adb94, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:30,536 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: 092a9314-0bc9-44c6-891d-77dbff2f5c7b, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:30,536 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:30,537 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:31,381 signals 12560 5588 Signal Error - Type: pre_save, Model: UserProfile, ID: 1fcff2e1-e58b-46da-8ec6-b24a143c7cdf, Error: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:31,382 signals 12560 5588 Signal Error - Type: post_save, Model: User, ID: f2fe8640-9dc6-4282-bb71-16ce4526307e, Error: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:31,383 models 12560 5588 Error saving user test@example.com: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:31,383 models 12560 5588 Error creating user: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+ERROR 2024-10-27 11:35:31,383 test_initial 12560 5588 Test failed: Error in user_post_save: Error in handle_profile_image: UserProfile matching query does not exist.
+INFO 2024-10-27 14:24:39,758 signals 3612 11736 Connecting user management signals
+INFO 2024-10-27 14:24:39,774 signals 3612 11736 Successfully connected all user management signals
+INFO 2024-10-27 14:24:39,774 apps 3612 11736 User app ready: signals connected
+INFO 2024-10-27 14:24:48,174 test_initial 3612 11736 Basic user creation test passed
+INFO 2024-10-27 15:49:30,482 signals 1296 2044 Connecting user management signals
+INFO 2024-10-27 15:49:30,482 signals 1296 2044 Successfully connected all user management signals
+INFO 2024-10-27 15:49:30,482 apps 1296 2044 User app ready: signals connected
+INFO 2024-10-27 15:49:38,502 test_initial 1296 2044 Basic user creation test passed
+INFO 2024-10-27 15:53:26,793 signals 11376 14396 Connecting user management signals
+INFO 2024-10-27 15:53:26,793 signals 11376 14396 Successfully connected all user management signals
+INFO 2024-10-27 15:53:26,793 apps 11376 14396 User app ready: signals connected
+INFO 2024-10-27 15:53:34,512 test_initial 11376 14396 Basic user creation test passed
+INFO 2024-10-27 16:52:01,757 signals 11428 4480 Connecting user management signals
+INFO 2024-10-27 16:52:01,757 signals 11428 4480 Successfully connected all user management signals
+INFO 2024-10-27 16:52:01,757 apps 11428 4480 User app ready: signals connected
+INFO 2024-10-30 10:06:46,589 signals 14076 3132 Connecting user management signals
+INFO 2024-10-30 10:06:46,589 signals 14076 3132 Successfully connected all user management signals
+INFO 2024-10-30 10:06:46,591 apps 14076 3132 User app ready: signals connected
+ERROR 2024-10-30 10:06:53,380 signals 14076 3132 Signal Error - Type: pre_save, Model: UserSkill, ID: f74f5faf-5004-4050-8c5a-530f6232e26c, Error: UserSkill matching query does not exist.
+ERROR 2024-10-30 10:07:01,595 signals 14076 3132 Signal Error - Type: pre_save, Model: UserSkill, ID: 09a115f0-9bdf-47a8-b7aa-d8e8038f037f, Error: UserSkill matching query does not exist.
+ERROR 2024-10-30 10:07:03,083 signals 14076 3132 Signal Error - Type: pre_save, Model: UserSkill, ID: 90c865d0-2df2-4908-b34d-da7c56d5423f, Error: UserSkill matching query does not exist.
+INFO 2024-10-30 10:33:37,568 signals 1960 11256 Connecting user management signals
+INFO 2024-10-30 10:33:37,570 signals 1960 11256 Successfully connected all user management signals
+INFO 2024-10-30 10:33:37,570 apps 1960 11256 User app ready: signals connected
+INFO 2024-10-30 10:42:51,515 signals 19840 20184 Connecting user management signals
+INFO 2024-10-30 10:42:51,516 signals 19840 20184 Successfully connected all user management signals
+INFO 2024-10-30 10:42:51,517 apps 19840 20184 User app ready: signals connected
+INFO 2024-10-30 10:48:24,054 signals 2180 14232 Connecting user management signals
+INFO 2024-10-30 10:48:24,055 signals 2180 14232 Successfully connected all user management signals
+INFO 2024-10-30 10:48:24,055 apps 2180 14232 User app ready: signals connected
+INFO 2024-10-30 10:51:08,345 signals 5892 5296 Connecting user management signals
+INFO 2024-10-30 10:51:08,346 signals 5892 5296 Successfully connected all user management signals
+INFO 2024-10-30 10:51:08,347 apps 5892 5296 User app ready: signals connected
+INFO 2024-10-30 10:52:34,498 signals 16924 14872 Connecting user management signals
+INFO 2024-10-30 10:52:34,499 signals 16924 14872 Successfully connected all user management signals
+INFO 2024-10-30 10:52:34,500 apps 16924 14872 User app ready: signals connected
+INFO 2024-10-30 10:52:45,639 signals 11448 7148 Connecting user management signals
+INFO 2024-10-30 10:52:45,640 signals 11448 7148 Successfully connected all user management signals
+INFO 2024-10-30 10:52:45,641 apps 11448 7148 User app ready: signals connected
+INFO 2024-10-30 18:31:31,235 signals 15120 13812 Connecting user management signals
+INFO 2024-10-30 18:31:31,236 signals 15120 13812 Successfully connected all user management signals
+INFO 2024-10-30 18:31:31,236 apps 15120 13812 User app ready: signals connected
+INFO 2024-10-30 18:32:56,917 signals 17272 19736 Connecting user management signals
+INFO 2024-10-30 18:32:56,918 signals 17272 19736 Successfully connected all user management signals
+INFO 2024-10-30 18:32:56,918 apps 17272 19736 User app ready: signals connected
+INFO 2024-10-30 18:36:12,216 signals 19792 20008 Connecting user management signals
+INFO 2024-10-30 18:36:12,217 signals 19792 20008 Successfully connected all user management signals
+INFO 2024-10-30 18:36:12,218 apps 19792 20008 User app ready: signals connected
+INFO 2024-10-30 18:38:55,164 signals 12128 17524 Connecting user management signals
+INFO 2024-10-30 18:38:55,165 signals 12128 17524 Successfully connected all user management signals
+INFO 2024-10-30 18:38:55,165 apps 12128 17524 User app ready: signals connected
+INFO 2024-10-30 18:46:39,355 signals 14340 2196 Connecting user management signals
+INFO 2024-10-30 18:46:39,356 signals 14340 2196 Successfully connected all user management signals
+INFO 2024-10-30 18:46:39,357 apps 14340 2196 User app ready: signals connected
+INFO 2024-10-30 18:47:31,748 signals 7032 7944 Connecting user management signals
+INFO 2024-10-30 18:47:31,749 signals 7032 7944 Successfully connected all user management signals
+INFO 2024-10-30 18:47:31,750 apps 7032 7944 User app ready: signals connected
+INFO 2024-10-30 18:48:22,801 signals 12548 20172 Connecting user management signals
+INFO 2024-10-30 18:48:22,802 signals 12548 20172 Successfully connected all user management signals
+INFO 2024-10-30 18:48:22,803 apps 12548 20172 User app ready: signals connected
+INFO 2024-10-30 18:49:24,830 signals 17392 11136 Connecting user management signals
+INFO 2024-10-30 18:49:24,831 signals 17392 11136 Successfully connected all user management signals
+INFO 2024-10-30 18:49:24,831 apps 17392 11136 User app ready: signals connected
+INFO 2024-10-30 23:36:15,287 signals 15920 15180 Connecting user management signals
+INFO 2024-10-30 23:36:15,289 signals 15920 15180 Successfully connected all user management signals
+INFO 2024-10-30 23:36:15,289 apps 15920 15180 User app ready: signals connected
+INFO 2024-10-30 23:38:11,648 signals 14576 18944 Connecting user management signals
+INFO 2024-10-30 23:38:11,649 signals 14576 18944 Successfully connected all user management signals
+INFO 2024-10-30 23:38:11,650 apps 14576 18944 User app ready: signals connected
