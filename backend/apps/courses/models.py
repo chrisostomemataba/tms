@@ -268,54 +268,160 @@ class ContentType(models.TextChoices):
     LIVE_SESSION = 'LIVE_SESSION', _('Live Session')
 
 class Lesson(models.Model):
-    """
-    Individual lesson within a module.
-    """
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )
-    module = models.ForeignKey(
-        Module,
-        on_delete=models.CASCADE,
-        related_name='lessons'
-    )
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    content_type = models.CharField(
-        max_length=20,
-        choices=ContentType.choices
-    )
-    content = models.JSONField(
-        help_text="Lesson content and metadata"
-    )
-    order = models.PositiveIntegerField(
-        help_text="Order within the module"
-    )
-    duration_minutes = models.PositiveIntegerField(
-        help_text="Expected duration in minutes"
-    )
-    is_required = models.BooleanField(
-        default=True,
-        help_text="Whether this lesson is required for module completion"
-    )
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    history = HistoricalRecords()
-    
-    class Meta:
-        ordering = ['module', 'order']
-        unique_together = ['module', 'order']
-        indexes = [
-            models.Index(fields=['module', 'order']),
-            models.Index(fields=['content_type']),
-        ]
+   """
+   Individual lesson within a module.
+   """
+   id = models.UUIDField(
+       primary_key=True,
+       default=uuid.uuid4,
+       editable=False
+   )
+   module = models.ForeignKey(
+       Module,
+       on_delete=models.CASCADE,
+       related_name='lessons'
+   )
+   title = models.CharField(max_length=200)
+   description = models.TextField()
+   content_type = models.CharField(
+       max_length=20,
+       choices=ContentType.choices
+   )
+   content = models.JSONField(
+       help_text="Lesson content and metadata"
+   )
+   order = models.PositiveIntegerField(
+       help_text="Order within the module"
+   )
+   duration_minutes = models.PositiveIntegerField(
+       help_text="Expected duration in minutes"
+   )
+   is_required = models.BooleanField(
+       default=True,
+       help_text="Whether this lesson is required for module completion"
+   )
+   
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
+   
+   history = HistoricalRecords()
+   
+   class Meta:
+       ordering = ['module', 'order']
+       unique_together = ['module', 'order']
+       indexes = [
+           models.Index(fields=['module', 'order']),
+           models.Index(fields=['content_type']),
+       ]
 
-    def __str__(self):
-        return f"{self.module.course.code} - Module {self.module.order} - Lesson {self.order}: {self.title}"
+   def __str__(self):
+       return f"{self.module.course.code} - Module {self.module.order} - Lesson {self.order}: {self.title}"
+
+   def clean(self):
+       """Validate lesson content based on content_type."""
+       super().clean()
+       
+       required_fields = {
+           'VIDEO': ['url', 'duration'],
+           'DOCUMENT': ['url', 'file_type'],
+           'PRESENTATION': ['url', 'slide_count'],
+           'INTERACTIVE': ['type', 'config'],
+           'EXTERNAL': ['url', 'platform'],
+           'LIVE_SESSION': ['session_id']
+       }
+       
+       if self.content_type in required_fields:
+           missing = [
+               field for field in required_fields[self.content_type]
+               if field not in self.content
+           ]
+           if missing:
+               raise ValidationError(
+                   f"Missing required fields for {self.content_type}: {missing}"
+               )
+
+       # Additional content-specific validation
+       if self.content_type == 'VIDEO':
+           if 'duration' in self.content and not isinstance(self.content['duration'], (int, float)):
+               raise ValidationError("Video duration must be a number")
+               
+       elif self.content_type == 'PRESENTATION':
+           if 'slide_count' in self.content and not isinstance(self.content['slide_count'], int):
+               raise ValidationError("Slide count must be an integer")
+
+       elif self.content_type == 'INTERACTIVE':
+           valid_types = ['quiz', 'exercise', 'simulation']
+           if 'type' in self.content and self.content['type'] not in valid_types:
+               raise ValidationError(f"Interactive content type must be one of: {valid_types}")
+
+   def save(self, *args, **kwargs):
+       """Save with validation and tracking."""
+       self.clean()  # Validate before saving
+       
+       is_new = not self.pk
+       with transaction.atomic():
+           super().save(*args, **kwargs)
+           
+           if is_new:
+               # Track lesson creation
+               UserActivity.objects.create(
+                   user=self.module.course.created_by,
+                   activity_type='LESSON_CREATION',
+                   activity_detail={
+                       'course_code': self.module.course.code,
+                       'module_title': self.module.title,
+                       'lesson_title': self.title,
+                       'content_type': self.content_type
+                   }
+               )
+
+   def get_progress_stats(self):
+       """Get lesson progress statistics."""
+       progress_records = self.progress_records.all()
+       return {
+           'total_attempts': progress_records.count(),
+           'completed_count': progress_records.filter(
+               status='COMPLETED'
+           ).count(),
+           'average_score': progress_records.filter(
+               score__isnull=False
+           ).aggregate(Avg('score'))['score__avg'],
+           'average_time': progress_records.filter(
+               time_spent__isnull=False
+           ).aggregate(Avg('time_spent'))['time_spent__avg']
+       }
+
+   def duplicate(self, new_module=None, new_order=None):
+       """Create a copy of this lesson."""
+       lesson = Lesson.objects.get(pk=self.pk)
+       lesson.pk = None  # Create new primary key
+       
+       if new_module:
+           lesson.module = new_module
+       if new_order:
+           lesson.order = new_order
+           
+       lesson.save()
+       return lesson
+
+   def update_content(self, content_updates):
+       """Safely update lesson content."""
+       if not isinstance(content_updates, dict):
+           raise ValueError("Content updates must be a dictionary")
+           
+       # Merge updates with existing content
+       updated_content = {**self.content, **content_updates}
+       
+       # Validate before updating
+       old_content = self.content
+       self.content = updated_content
+       try:
+           self.clean()
+       except ValidationError as e:
+           self.content = old_content  # Restore old content
+           raise e
+           
+       self.save()
 
 class Assignment(models.Model):
     """

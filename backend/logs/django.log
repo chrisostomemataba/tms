@@ -614,3 +614,47 @@ Traceback (most recent call last):
   File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\db\models\query.py", line 637, in get
     raise self.model.DoesNotExist(
 apps.courses.models.Enrollment.DoesNotExist: Enrollment matching query does not exist.
+ERROR 2024-10-31 12:22:52,576 log 6432 12452 Internal Server Error: /api/courses/courses/e14ca8d7-b2d0-4d92-9306-bbe14822bcca/enroll/
+Traceback (most recent call last):
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\apps\courses\views.py", line 70, in enroll
+    enrollment = Enrollment.objects.create(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\apps\courses\models.py", line 448, in save
+    old_status = Enrollment.objects.get(pk=self.pk).status
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kemosabe\Documents\traoning_management\backend\venv\Lib\site-packages\django\db\models\query.py", line 637, in get
+    raise self.model.DoesNotExist(
+apps.courses.models.Enrollment.DoesNotExist: Enrollment matching query does not exist.
