@@ -112,11 +112,287 @@ erDiagram
     Course ||--o{ Enrollment : has
     User ||--o{ Enrollment : participates
 ```
+## 4. Database Design (Continued)
 
-Would you like me to continue with:
-1. The remaining documentation sections?
-2. More detailed diagrams?
-3. Specific implementation details?
-4. API specifications?
+### 4.2 Detailed Schema
 
-Each section will maintain this level of detail and professionalism. Let me know how you'd like to proceed!
+#### User Management Schema
+```sql
+-- Core User Table
+CREATE TABLE users_user (
+    id UUID PRIMARY KEY,
+    email VARCHAR(254) UNIQUE NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMP WITH TIME ZONE,
+    last_active TIMESTAMP WITH TIME ZONE,
+    failed_login_attempts INTEGER DEFAULT 0
+);
+
+-- User Profile
+CREATE TABLE users_userprofile (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users_user(id),
+    phone_number VARCHAR(128),
+    department VARCHAR(100),
+    position VARCHAR(100),
+    bio TEXT,
+    avatar VARCHAR(100),
+    skills JSONB,
+    preferences JSONB
+);
+
+-- Skills and Achievements
+CREATE TABLE users_skill (
+    id UUID PRIMARY KEY,
+    name VARCHAR(100) UNIQUE,
+    category VARCHAR(50),
+    level_criteria JSONB
+);
+```
+
+#### Course Management Schema
+```sql
+-- Course Table
+CREATE TABLE courses_course (
+    id UUID PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    code VARCHAR(20) UNIQUE,
+    category VARCHAR(20),
+    difficulty_level VARCHAR(20),
+    duration_weeks INTEGER,
+    created_by UUID REFERENCES users_user(id)
+);
+
+-- Module Table
+CREATE TABLE courses_module (
+    id UUID PRIMARY KEY,
+    course_id UUID REFERENCES courses_course(id),
+    title VARCHAR(200),
+    order INTEGER,
+    duration_hours INTEGER,
+    UNIQUE(course_id, order)
+);
+```
+
+### 4.3 Data Relationships
+![Database Relationships](diagram-placeholder)
+```mermaid
+erDiagram
+    User ||--o{ Course : creates
+    User ||--o{ Enrollment : has
+    Course ||--o{ Module : contains
+    Module ||--o{ Lesson : contains
+    User ||--o{ UserSkill : acquires
+    Course ||--o{ RequiredSkill : requires
+```
+
+## 5. Core Components
+
+### 5.1 User Management System
+
+#### Features
+- Role-based access control (RBAC)
+- Profile management
+- Skill tracking
+- Achievement system
+- Activity monitoring
+
+#### Code Structure
+```
+apps/users/
+├── models/
+│   ├── user.py
+│   ├── profile.py
+│   └── activity.py
+├── views/
+│   ├── auth.py
+│   ├── profile.py
+│   └── admin.py
+└── services/
+    ├── skill_service.py
+    └── achievement_service.py
+```
+
+### 5.2 Course Management System
+
+#### Features
+- Course creation and modification
+- Module and lesson management
+- Enrollment handling
+- Progress tracking
+- Assessment system
+
+#### Code Structure
+```
+apps/courses/
+├── models/
+│   ├── course.py
+│   ├── module.py
+│   └── enrollment.py
+├── views/
+│   ├── course.py
+│   ├── enrollment.py
+│   └── assessment.py
+└── services/
+    ├── progress_service.py
+    └── certificate_service.py
+```
+
+## 6. Security Implementation
+
+### 6.1 Authentication
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+```
+
+### 6.2 Permission System
+```python
+class IsAdminUser(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.role == UserRole.ADMIN
+
+class IsTrainerOrAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.role in [
+            UserRole.TRAINER, 
+            UserRole.ADMIN
+        ]
+```
+
+## 7. API Documentation
+
+### 7.1 Authentication Endpoints
+```
+POST /api/auth/token/
+POST /api/auth/token/refresh/
+POST /api/auth/register/
+```
+
+### 7.2 User Management Endpoints
+```
+GET    /api/users/me/
+PUT    /api/users/me/
+GET    /api/users/profile/
+PATCH  /api/users/profile/
+GET    /api/users/skills/
+POST   /api/users/skills/
+```
+
+### 7.3 Course Management Endpoints
+```
+GET    /api/courses/
+POST   /api/courses/
+GET    /api/courses/{id}/
+PUT    /api/courses/{id}/
+GET    /api/courses/{id}/modules/
+POST   /api/courses/{id}/enroll/
+```
+
+## 8. Testing Strategy
+
+### 8.1 Test Types
+1. **Unit Tests**
+   ```python
+   class UserModelTest(TestCase):
+       def test_user_creation(self):
+           user = User.objects.create_user(
+               email='test@example.com',
+               password='testpass123'
+           )
+           self.assertTrue(user.check_password('testpass123'))
+   ```
+
+2. **Integration Tests**
+   ```python
+   class UserAPITest(APITestCase):
+       def test_user_registration(self):
+           response = self.client.post('/api/auth/register/', {
+               'email': 'test@example.com',
+               'password': 'testpass123'
+           })
+           self.assertEqual(response.status_code, 201)
+   ```
+
+3. **End-to-End Tests**
+   ```python
+   class EnrollmentFlowTest(TestCase):
+       def test_complete_enrollment_flow(self):
+           # Setup
+           self.create_course()
+           self.create_user()
+           
+           # Test enrollment
+           self.enroll_user()
+           
+           # Verify enrollment
+           self.verify_enrollment_success()
+   ```
+
+### 8.2 Test Coverage
+```bash
+coverage run manage.py test
+coverage report
+```
+
+## 9. Deployment Guide
+
+### 9.1 Environment Setup
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Setup database
+python manage.py migrate
+```
+
+### 9.2 Docker Configuration
+```dockerfile
+# Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+CMD ["gunicorn", "config.wsgi:application"]
+```
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: tms_db
+```
+
+
