@@ -39,8 +39,12 @@ const NavigationBar = () => {
                 <Button>
                     login
                 </Button>
-                <Button variant={'outline'}>
+                <Button variant={'outline'} asChild>
+                    <Link
+                        href='/signup'
+                    >
                     sign up
+                    </Link>
                 </Button>
             </div>
         </nav>

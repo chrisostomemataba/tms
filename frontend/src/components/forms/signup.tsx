@@ -35,7 +35,6 @@ import {
 import { useForm } from "react-hook-form"
 // import { toast } from "sonner"
 import * as z from "zod"
-
 export default function SignUpFormComponent() {
     const form = useForm<z.infer<typeof SignupFormSchema>>({
         resolver: zodResolver(SignupFormSchema),
@@ -144,13 +143,15 @@ export default function SignUpFormComponent() {
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="trainer" />
+                                            <SelectValue
+                                                placeholder="trainer"
+                                            />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                        <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                        <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                        <SelectItem value="ADMIN">ADMIN</SelectItem>
+                                        <SelectItem value="TRAINER">TRAINER</SelectItem>
+                                        <SelectItem value="PARTICIPANT">PARTICIPANT</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormDescription>select role</FormDescription>
@@ -162,15 +163,20 @@ export default function SignUpFormComponent() {
                         control={form.control}
                         name="active"
                         render={({ field }) => (
-                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                            <FormItem
+                                className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                                 <FormControl>
                                     <Checkbox
                                         checked={field.value}
                                         onCheckedChange={field.onChange}
                                     />
                                 </FormControl>
-                                <div className="space-y-1 leading-none">
-                                    <FormLabel>is active</FormLabel>
+                                <div
+                                    className="space-y-1 leading-none"
+                                >
+                                    <FormLabel>
+                                        is active
+                                    </FormLabel>
                                     <FormMessage />
                                 </div>
                             </FormItem>
