@@ -329,6 +329,9 @@ INFO 2024-11-11 19:20:33,649 apps 9528 4464 User app ready: signals connected
 INFO 2024-11-11 19:26:17,347 signals 9972 5488 Connecting user management signals
 INFO 2024-11-11 19:26:17,347 signals 9972 5488 Successfully connected all user management signals
 INFO 2024-11-11 19:26:17,347 apps 9972 5488 User app ready: signals connected
+<<<<<<< HEAD
+=======
 INFO 2024-11-11 19:39:29,450 signals 11916 7592 Connecting user management signals
 INFO 2024-11-11 19:39:29,450 signals 11916 7592 Successfully connected all user management signals
 INFO 2024-11-11 19:39:29,466 apps 11916 7592 User app ready: signals connected
+>>>>>>> main
