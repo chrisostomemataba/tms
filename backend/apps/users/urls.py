@@ -15,6 +15,15 @@ from . import views
 # Create main router
 router = DefaultRouter()
 router.default_renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+
+# Auth URLs
+auth_urlpatterns = [
+    path('auth/register/', views.UserRegistrationView.as_view(), name='register'),
+    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+]
+
 # Main routes
 router.register(r'users', views.UserViewSet, basename='user')
 router.register(r'skills', views.SkillViewSet, basename='skill')
@@ -39,34 +48,11 @@ users_router.register(
     basename='user-activity'
 )
 
-urlpatterns = [
-    # Router URLs
-    path('', include(router.urls)),
-    path('', include(users_router.urls)),
-    
-    # Authentication endpoints
-    path(
-        'auth/register/',
-        views.UserRegistrationView.as_view(),
-        name='register'
-    ),
-    path(
-        'auth/token/',
-        TokenObtainPairView.as_view(),
-        name='token_obtain_pair'
-    ),
-    path(
-        'auth/token/refresh/',
-        TokenRefreshView.as_view(),
-        name='token_refresh'
-    ),
-    path(
-        'auth/token/verify/',
-        TokenVerifyView.as_view(),
-        name='token_verify'
-    ),
-    
-    # Profile management
+# Combine all URLs
+urlpatterns = auth_urlpatterns + router.urls + users_router.urls
+
+# Profile management
+urlpatterns += [
     path(
         'profile/me/',
         views.CurrentUserProfileView.as_view(),
