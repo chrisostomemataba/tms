@@ -1,6 +1,6 @@
 'use server'
 
-import { createSession } from "@/lib/session";
+import { createSession } from "@/app/actions/session";
 
 interface ValidationErrors {
     [key: string]: string[];
@@ -90,7 +90,8 @@ export async function signInAction(formValues: FormData): Promise<AuthResponse> 
             };
         }
 
-        createSession(data.refresh, data.access);
+        await createSession(data.refresh, data.access);
+        console.log(data)
 
         return {
             success: true,

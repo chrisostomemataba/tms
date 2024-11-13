@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/input"
 import { SigninFormSchema } from "@/lib/definitions"
 import { useActionState, useState } from "react"
-// import { toast } from "sonner"
 import { signInAction } from "@/app/actions/auth"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { Label } from "../ui/label"
+import { Loader } from "lucide-react"
 
 export default function SignInFormComponent() {
     const [error, setError] = useState<Record<string, string> | null>(null)
@@ -98,8 +98,7 @@ export default function SignInFormComponent() {
                 type="submit"
                 disabled={isPending}
             >
-                {isPending ? "Submitting..." : "Submit"}
-                Submit
+                {isPending ? <Loader className="animate-spin ease-in-out" /> : "submit"}
             </Button>
         </form>
     )
