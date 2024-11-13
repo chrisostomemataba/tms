@@ -1,191 +1,130 @@
 "use client"
-import { signup } from "@/app/actions/auth"
 import {
     Button
 } from "@/components/ui/button"
 import {
-    Checkbox
-} from "@/components/ui/checkbox"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import {
     Input
 } from "@/components/ui/input"
-import {
-    PhoneInput
-} from "@/components/ui/phone-input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select"
 import { SignupFormSchema } from "@/lib/definitions"
-import {
-    zodResolver
-} from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useActionState, useState } from "react"
 // import { toast } from "sonner"
-import * as z from "zod"
+import { useToast } from "@/hooks/use-toast"
+import { z } from "zod"
+import { Label } from "../ui/label"
+import { signUpAction } from "@/app/actions/auth"
+
 export default function SignUpFormComponent() {
-    const form = useForm<z.infer<typeof SignupFormSchema>>({
-        resolver: zodResolver(SignupFormSchema),
+    const [error, setError] = useState<Record<string, string> | null>(null)
+    const [state, formAction, isPending] = useActionState(handleFormSubmit, { error: "", status: "INITIAL" })
+    const {toast} = useToast()
 
-    })
 
-    async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
+    async function handleFormSubmit(prevState: { error: string, status: string } | undefined, formData: FormData) {
         try {
-            console.log('formData', values);
-            await signup(values);  // Remove the formData wrapper
-            // toast.success("Signup successful!");
-            // form.reset();
+            const formValues = {
+                email: formData.get("email") as string,
+                first_name: formData.get("first_name") as string,
+                last_name: formData.get("last_name") as string,
+                phone_number: formData.get("phone_number") as string,
+            }
+
+            await SignupFormSchema.parseAsync(formValues)
+
+            await signUpAction(prevState, formData)
+
+            console.log("Form values", formValues)
+            
+            toast({
+                title: "Form submitted successfully",
+                description: "We have received your form submission",
+                variant: "default"
+            })
         } catch (error) {
-            console.error("Form submission error", error);
-            // toast.error("Failed to submit the form. Please try again.");
+            if (error instanceof z.ZodError) {
+                const fieldErrors = error.flatten().fieldErrors
+
+                setError(fieldErrors as unknown as Record<string, string>)
+
+                return {
+                    ...prevState,
+                    error: "Failed to submit the form. Please try again.",
+                    status: "ERROR"
+                }
+                toast({
+                    title: "Form submission failed",
+                    description: "Failed to submit the form. Please try again.",
+                    variant: "destructive"
+                })
+            } else {
+                setError({ form: "Failed to submit the form. Please try again." })
+
+                return {
+                    ...prevState,
+                    error: "Failed to submit the form. Please try again.",
+                    status: "ERROR"
+                }
+                toast({
+                    title: "Form submission failed",
+                    description: "Failed to submit the form. Please try again.",
+                    variant: "destructive"
+                })
+            }
         }
     }
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8 max-w-3xl mx-auto py-10"
-            >
-                <div className="flex items-center w-full gap-4">
-                    <FormField
-                        control={form.control}
+        <form
+            action={formAction}
+            className="space-y-8 max-w-3xl mx-auto py-10"
+        >
+            <div className="flex items-center w-full gap-4">
+                <div>
+                    <Label>First Name</Label>
+                    <Input
                         name="first_name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>first name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="first name"
-                                        type="text"
-                                        className="w-full"
-                                        {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        placeholder="first name"
+                        type="text"
+                        className="w-full"
                     />
-                    <FormField
-                        control={form.control}
+                    {error?.first_name && <p className="text-xs text-red-500">{error.first_name}</p>}
+                </div>
+                <div>
+                    <Label>Last Name</Label>
+                    <Input
                         name="last_name"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>last name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="last name"
-                                        type="text"
-                                        {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        placeholder="last name"
+                        type="text"
                     />
+                    {error?.last_name && <p className="text-xs text-red-500">{error.last_name}</p>}
                 </div>
+            </div>
 
-                <FormField
-                    control={form.control}
+            <div>
+                <Label>Email</Label>
+                <Input
                     name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>email</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="passionsteven28@gmail.com"
-
-                                    type="email"
-                                    {...field} />
-                            </FormControl>
-                            <FormDescription>enter your email address </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                    placeholder="passionsteven28@gmail.com"
+                    type="email"
                 />
+                {error?.email && <p className="text-xs text-red-500">{error.email}</p>}
+            </div>
 
-                <FormField
-                    control={form.control}
+            <div>
+                <Label>Phone Number</Label>
+                <Input
                     name="phone_number"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col items-start">
-                            <FormLabel>Phone number</FormLabel>
-                            <FormControl className="w-full">
-                                <PhoneInput
-                                    placeholder=""
-                                    {...field}
-                                    defaultCountry="TZ"
-                                />
-                            </FormControl>
-                            <FormDescription>Enter your phone number.</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                    type="number"
+                    placeholder="phone number"
                 />
-
-                <div className="flex items-center w-full gap-4">
-                    <FormField
-                        control={form.control}
-                        name="role"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>role</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder="trainer"
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="ADMIN">ADMIN</SelectItem>
-                                        <SelectItem value="TRAINER">TRAINER</SelectItem>
-                                        <SelectItem value="PARTICIPANT">PARTICIPANT</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormDescription>select role</FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="active"
-                        render={({ field }) => (
-                            <FormItem
-                                className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <div
-                                    className="space-y-1 leading-none"
-                                >
-                                    <FormLabel>
-                                        is active
-                                    </FormLabel>
-                                    <FormMessage />
-                                </div>
-                            </FormItem>
-                        )}
-                    />
-                </div>
-
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
+                {error?.phone_number && <p className="text-xs text-red-500">{error.phone_number}</p>}
+            </div>
+            <Button
+                type="submit"
+                disabled={isPending}
+            >
+                {isPending ? "Submitting..." : "Submit"}
+                Submit
+            </Button>
+        </form>
     )
 }
