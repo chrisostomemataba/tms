@@ -36,8 +36,12 @@ const NavigationBar = () => {
             </ul>
 
             <div className='flex items-center gap-4'>
-                <Button>
-                    login
+                <Button asChild>
+                    <Link
+                        href={'/signin'}
+                    >
+                        sign in
+                    </Link>
                 </Button>
                 <Button variant={'outline'} asChild>
                     <Link
