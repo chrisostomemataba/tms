@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation"
 
 export default function SignUpFormComponent() {
     const [error, setError] = useState<Record<string, string> | null>(null)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [state, formAction, isPending] = useActionState(handleFormSubmit, { error: "", status: "INITIAL" })
     const { toast } = useToast()
     const router = useRouter()

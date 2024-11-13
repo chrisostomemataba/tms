@@ -1,5 +1,7 @@
 'use server'
 
+import { createSession } from "@/lib/session";
+
 interface ValidationErrors {
     [key: string]: string[];
 }
@@ -87,6 +89,13 @@ export async function signInAction(formValues: FormData): Promise<AuthResponse> 
                 errors: 'Authentication failed. Please try again.'
             };
         }
+
+        createSession(data.refresh, data.access);
+
+        return {
+            success: true,
+            data
+        };
     } catch (error) {
         console.error('Authentication error:', error);
         return {

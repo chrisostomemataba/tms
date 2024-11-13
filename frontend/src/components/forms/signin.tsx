@@ -5,7 +5,7 @@ import {
 import {
     Input
 } from "@/components/ui/input"
-import { SigninFormSchema, SignupFormSchema } from "@/lib/definitions"
+import { SigninFormSchema } from "@/lib/definitions"
 import { useActionState, useState } from "react"
 // import { toast } from "sonner"
 import { signInAction } from "@/app/actions/auth"
@@ -16,6 +16,7 @@ import { Label } from "../ui/label"
 
 export default function SignInFormComponent() {
     const [error, setError] = useState<Record<string, string> | null>(null)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [state, formAction, isPending] = useActionState(handleFormSubmit, { error: "", status: "INITIAL" })
     const { toast } = useToast()
     const router = useRouter()
