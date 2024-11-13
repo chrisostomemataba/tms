@@ -1,8 +1,12 @@
 {
     "cSpell.words": [
+<<<<<<< HEAD
         "Browsable",
         "signin",
         "Signup",
         "simplejwt"
+=======
+        "Signup"
+>>>>>>> 7d442bf8ec2f35e256ea8b36d3d7342d02fd516c
     ]
 }
