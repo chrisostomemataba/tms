@@ -5,8 +5,8 @@ import { TestimonySection } from "@/components/sections/testimony-section";
 import { WhyUsSection } from "@/components/sections/why-us-section";
 import { getSession } from "./actions/session";
 
-export default function Home() {
-  getSession();
+export default async function Home() {
+  await getSession();
 
   return (
     <main className="grid place-items-center min-h-screen w-full">

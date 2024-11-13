@@ -30,7 +30,7 @@ export async function createSession(refresh: string, access: string) {
         const cookieStore = await cookies()
         const cookieValue = cookieStore.get(cookie.name)
         console.log('cookieValue', cookieValue)
-        
+
         return { success: true }
     } catch (error) {
         console.error('Failed to create session:', error)
@@ -38,39 +38,30 @@ export async function createSession(refresh: string, access: string) {
     }
 }
 
-interface SessionData {
-    refresh: string;
-    access: string;
+
+export async function getSession() {
+    const cookieStore = await cookies()
+    const cookieValue = cookieStore.get(cookie.name)
+
+    if (!cookieValue) {
+        redirect('/signin')
+    }
+
+    return { success: true, data: cookieValue }
 }
 
-export async function getSession(): Promise<{ success: boolean; data?: SessionData }> {
+export async function destroySession() {
     try {
-        const cookieStore = await cookies()
-        const sessionCookie = cookieStore.get(cookie.name)
-        
-        if (!sessionCookie?.value) {
-            console.log('No session found')
-            redirect('/login')
-        }
+        (await cookies()).set({
+            name: cookie.name,
+            value: '',
+            ...cookie.options,
+            maxAge: 0
+        })
 
-        try {
-            const sessionData = JSON.parse(sessionCookie.value) as SessionData
-            
-            if (!sessionData.access || !sessionData.refresh) {
-                throw new Error('Invalid session data')
-            }
-
-            return { 
-                success: true, 
-                data: sessionData 
-            }
-        } catch (parseError) {
-            console.error('Invalid session format:', parseError)
-            redirect('/login')
-        }
-
+        return { success: true }
     } catch (error) {
-        console.error('Failed to get session:', error)
-        redirect('/login')
+        console.error('Failed to destroy session:', error)
+        return { success: false, error: 'Failed to destroy session' }
     }
 }

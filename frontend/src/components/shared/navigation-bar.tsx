@@ -2,6 +2,7 @@ import React from 'react'
 import { Logo } from './logo'
 import Link from 'next/link'
 import { Button } from '../ui/button'
+import { destroySession, getSession } from '@/app/actions/session'
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -10,7 +11,9 @@ const navLinks = [
     { name: 'Contact', href: '/contact' },
 ]
 
-const NavigationBar = () => {
+const NavigationBar = async () => {
+    const authenticated = await getSession();
+
     return (
         <nav className="p-4 flex justify-evenly items-center sticky top-0 bg-white/70 backdrop-blur-sm z-50">
             <div>
@@ -19,7 +22,7 @@ const NavigationBar = () => {
                     height={50}
                 />
             </div>
-            
+
             <ul className='flex items-center justify-between gap-2 font-semibold leading-tight text-lg capitalize'>
                 {navLinks.map((link) => (
                     <li
@@ -35,22 +38,32 @@ const NavigationBar = () => {
                 ))}
             </ul>
 
-            <div className='flex items-center gap-4'>
-                <Button asChild>
-                    <Link
-                        href={'/signin'}
-                    >
-                        sign in
-                    </Link>
-                </Button>
-                <Button variant={'outline'} asChild>
-                    <Link
-                        href='/signup'
-                    >
-                    sign up
-                    </Link>
-                </Button>
-            </div>
+            {authenticated ? (
+                <form
+                    className='flex items-center gap-4'
+                >
+                    <Button type='submit'>
+                        log out
+                    </Button>
+                </form>
+            ) : (
+                <div className='flex items-center gap-4'>
+                    <Button asChild>
+                        <Link
+                            href={'/signin'}
+                        >
+                            sign in
+                        </Link>
+                    </Button>
+                    <Button variant={'outline'} asChild>
+                        <Link
+                            href='/signup'
+                        >
+                            sign up
+                        </Link>
+                    </Button>
+                </div>
+            )}
         </nav>
     )
 }
