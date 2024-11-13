@@ -136,3 +136,4 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+backend/apps/courses/__pycache__/admin.cpython-312.pyc
