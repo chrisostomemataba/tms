@@ -1,30 +1,140 @@
-interface SignupData {
-    email: string;
-    first_name: string;
-    last_name: string;
-    phone_number: string;
-    role: string;
+'use server'
+
+import { createSession } from "@/lib/session";
+
+interface ValidationErrors {
+    [key: string]: string[];
 }
 
-export async function signup(data: SignupData) {
-    const email = data.email
-    const first_name = data.first_name
-    const last_name = data.last_name
-    const phone_number = data.phone_number
-    const role = data.role
-    console.log(email, first_name, last_name, phone_number, role)
+interface AuthResponse {
+    success: boolean;
+    errors?: ValidationErrors | string;
+    data?: { access?: string } | Record<string, unknown>;
+}
+
+export async function signUpAction(formValues: FormData): Promise<AuthResponse> {
+    const values = Object.fromEntries(formValues.entries());
+    
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Error response from server:", data);
+            
+            // Handle field-specific validation errors
+            if (typeof data === 'object' && Object.keys(data).length > 0) {
+                return {
+                    success: false,
+                    errors: data as ValidationErrors
+                };
+            }
+            
+            // Handle generic errors
+            return {
+                success: false,
+                errors: 'Registration failed. Please try again.'
+            };
+        }
+
+        return {
+            success: true,
+            data
+        };
+
+    } catch (error) {
+        console.error('Registration error:', error);
+        return {
+            success: false,
+            errors: 'An unexpected error occurred. Please try again.'
+        };
+    }
+}
+
+export async function signInAction(formValues: FormData): Promise<AuthResponse> { 
+    const values = Object.fromEntries(formValues.entries());
+    
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/token/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Error response from server:", data);
+            
+            // Handle field-specific validation errors
+            if (typeof data === 'object' && Object.keys(data).length > 0) {
+                return {
+                    success: false,
+                    errors: data as ValidationErrors
+                };
+            }
+            
+            // Handle generic errors
+            return {
+                success: false,
+                errors: 'Authentication failed. Please try again.'
+            };
+        }
+
+        createSession(data.refresh, data.access);
+
+        return {
+            success: true,
+            data
+        };
+    } catch (error) {
+        console.error('Authentication error:', error);
+        return {
+            success: false,
+            errors: 'An unexpected error occurred. Please try again.'
+        };
+    }
+}
 
 
-    // call auth endpoint from django rest framework
-    await fetch('http://127.0.0.1:8000/api/users/users/', {
-        method: 'POST',
-        body: JSON.stringify({
-            "email": email,
-            "first_name": first_name,
-            "last_name": last_name,
-            "role": null,
-            "is_active": false,
-        })
-    })
+export async function getAuthToken(email: string, password: string): Promise<AuthResponse> {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/auth/token/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
 
+        const data = await response.json();
+
+        if (!response.ok) {
+            return {
+                success: false,
+                errors: data.detail || 'Authentication failed'
+            };
+        }
+
+        return {
+            success: true,
+            data: data.access
+        };
+
+    } catch (error) {
+        console.error('Authentication error:', error);
+        return {
+            success: false,
+            errors: 'An unexpected error occurred'
+        };
+    }
 }
