@@ -4,9 +4,11 @@ import { PopularCoursesSection } from "@/components/sections/popular-courses-sec
 import { TestimonySection } from "@/components/sections/testimony-section";
 import { WhyUsSection } from "@/components/sections/why-us-section";
 import { getSession } from "./actions/session";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-  await getSession();
+  const session = await getSession();
+  if (!session?.success) redirect('/signin');
 
   return (
     <main className="grid place-items-center min-h-screen w-full">

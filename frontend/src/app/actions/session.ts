@@ -43,11 +43,14 @@ export async function getSession() {
     const cookieStore = await cookies()
     const cookieValue = cookieStore.get(cookie.name)
 
-    if (!cookieValue) {
-        redirect('/signin')
+    try {
+        if (cookieValue) {
+            return { success: true, data: cookieValue}
+        }
+    } catch (error) {
+        console.error('Failed to get session:', error)
+        return { success: false, error: 'Failed to get session' }
     }
-
-    return { success: true, data: cookieValue }
 }
 
 export async function destroySession() {

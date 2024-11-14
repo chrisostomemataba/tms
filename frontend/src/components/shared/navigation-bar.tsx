@@ -1,8 +1,7 @@
-import React from 'react'
-import { Logo } from './logo'
+import { getSession } from '@/app/actions/session'
 import Link from 'next/link'
 import { Button } from '../ui/button'
-import { destroySession, getSession } from '@/app/actions/session'
+import { Logo } from './logo'
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -38,32 +37,22 @@ const NavigationBar = async () => {
                 ))}
             </ul>
 
-            {authenticated ? (
-                <form
-                    className='flex items-center gap-4'
-                >
-                    <Button type='submit'>
-                        log out
-                    </Button>
-                </form>
-            ) : (
-                <div className='flex items-center gap-4'>
-                    <Button asChild>
-                        <Link
-                            href={'/signin'}
-                        >
-                            sign in
-                        </Link>
-                    </Button>
-                    <Button variant={'outline'} asChild>
-                        <Link
-                            href='/signup'
-                        >
-                            sign up
-                        </Link>
-                    </Button>
-                </div>
-            )}
+            <div className='flex items-center gap-4'>
+                <Button asChild>
+                    <Link
+                        href={'/signin'}
+                    >
+                        sign in
+                    </Link>
+                </Button>
+                <Button variant={'outline'} asChild>
+                    <Link
+                        href='/signup'
+                    >
+                        sign up
+                    </Link>
+                </Button>
+            </div>
         </nav>
     )
 }
