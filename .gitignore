@@ -137,3 +137,5 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 backend/apps/courses/__pycache__/admin.cpython-312.pyc
+backend/logs/django.log
+backend/logs/user_activity.log
